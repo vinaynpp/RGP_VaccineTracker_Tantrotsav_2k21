@@ -16,5 +16,23 @@
 </head>
 <body>
     How you Doin???
+    <form action="{{ url_for('getdistricts') }}" method="post">
+        <div>
+
+            <select name = "states">
+                {% for state in states %}
+                <option value="{{state.state_id}}">{{state.state_name}}</option>
+                {% endfor %}
+            </select>
+        
+        </div>
+        <div>
+            <button type="submit">
+                Submit
+            </button>
+        </div>
+    
+    </form>
+
 </body>
 </html>
