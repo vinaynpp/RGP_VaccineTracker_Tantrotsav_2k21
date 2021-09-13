@@ -1,38 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RPG Vaccine Tracker</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            background-color: #333333;
-            color: #ffffff;
-        }
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        background-color: #333333;
+        color: #ffffff;
+      }
     </style>
-</head>
-<body>
-    How you Doin???
+  </head>
+  <body>
+    {% if session["stateid"]%} 
     <form action="{{ url_for('getdistricts') }}" method="post">
         <div>
-
-            <select name = "states">
-                {% for state in states %}
-                <option value="{{state.state_id}}">{{state.state_name}}</option>
-                {% endfor %}
-            </select>
-        
+          <select name="states">
+            {% for state in states %}
+            <option value="{{state.state_id}}">{{state.state_name}}</option>
+            {% endfor %}
+          </select>
         </div>
         <div>
-            <button type="submit">
-                Submit
-            </button>
+          <button type="submit">Submit</button>
         </div>
-    
+      </form>
+    <form action="{{ url_for('getvd') }}" method="post">
+        <div>
+          <select name="districts">
+            {% for district in districts %}
+            <option value="{{district.district_id}}">{{district.district_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+            date: <input type="date" name="date" />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    {% else %}
+    <form action="{{ url_for('getdistricts') }}" method="post">
+      <div>
+        <select name="states">
+          {% for state in states %}
+          <option value="{{state.state_id}}">{{state.state_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
     </form>
 
-</body>
+    {% endif %}
+  </body>
 </html>
