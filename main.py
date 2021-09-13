@@ -59,7 +59,7 @@ def getvd():
         param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
         findByDistrict = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
         print(findByDistrict)
-        return render_template("getvd.html")
+        return render_template("getvd.html",vaccine_details=findByDistrict["sessions"])
     
 
 
