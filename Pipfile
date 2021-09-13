@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "==8.0.1"
+colorama = "==0.4.4"
+itsdangerous = "==2.0.1"
+Flask = "==2.0.1"
+Jinja2 = "==3.0.1"
+MarkupSafe = "==2.0.1"
+Werkzeug = "==2.0.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
