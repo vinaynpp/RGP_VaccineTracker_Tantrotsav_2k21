@@ -2,18 +2,7 @@
 
 
 {% block content %}
-<button class="toplink" onclick="openPage('Home', this, 'grey')">Home</button>
-<button class="toplink" onclick="openPage('Vaccine', this, 'grey')" id="defaultOpen">Vaccine</button>
-<button class="toplink" onclick="openPage('Contact', this, 'grey')">Contact</button>
-<button class="toplink" onclick="openPage('About', this, 'grey')">About</button>
 
-<div id="Home" class="topcontent">
-  <h3>Home</h3>
-  <p>Home is where the heart is..</p>
-</div>
-
-<div id="Vaccine" class="topcontent">
-    {% block vaccineb %}
 
 
     {% if session["date"]%} 
@@ -213,6 +202,7 @@
         <h3>District</h3>
         <form action="{{ url_for('getdistricts') }}" method="post">
             <div>
+              Select State: 
               <select name="states" required >
                 {% for state in states %}
                 <option value="{{state.state_id}}">{{state.state_name}}</option>
@@ -232,7 +222,7 @@
                 <input type="number" name="pincode" id="pincode">
             </div>
             <div>
-                date: <input type="date" name="date" required  />
+                Date: <input type="date" name="date" required  />
             </div>
             <div>
               <button type="submit">Submit</button>
@@ -245,16 +235,5 @@
     
     
     {% endif %}
-    {% endblock %}
-</div>
 
-<div id="Contact" class="topcontent">
-  <h3>Contact</h3>
-  <p>Get in touch, or swing by for a cup of coffee.</p>
-</div>
-
-<div id="About" class="topcontent">
-  <h3>About</h3>
-  <p>Who we are and what we do.</p>
-</div>
 {% endblock %}

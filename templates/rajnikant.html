@@ -12,6 +12,29 @@
         background-color: #333333;
         color: #ffffff;
       }
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
       table {
         width: 100%;
       }
@@ -27,7 +50,7 @@
         border: 1px solid #ccc;
         background-color: #f1f1f1;
         width: 30%;
-        height: 300px;
+        height: auto;
       }
 
       /* Style the buttons inside the tab */
@@ -59,9 +82,9 @@
         float: left;
         padding: 0px 12px;
         border: 1px solid #ccc;
-        width: 67%;
+        width: 60%;
         border-left: none;
-        height: 300px;
+        height: auto;
         display: none;
       }
 
@@ -71,34 +94,15 @@
         clear: both;
         display: table;
       }
-
-      /* Style top links */
-      .toplink {
-        background-color: #555;
-        color: white;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        font-size: 17px;
-        width: 25%;
-      }
-
-      .toplink:hover {
-        background-color: #777;
-      }
-
-      /* Style the top content (and add height:100% for full page content) */
-      .topcontent {
-        color: white;
-        display: none;
-        padding: 100px 20px;
-        height: 100%;
-      }
     </style>
   </head>
   <body>
+    <ul>
+      <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('instr') }}">Instructions</a></li>
+      <li><a href="{{ url_for('dos') }}">Do's and Don'ts</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+    </ul>
     {% block content %} {% endblock %}
     <script>
       function selectmethod(evt, methodName) {
