@@ -43,7 +43,17 @@
       
       <div id="Pincode" class="tabcontent">
         <h3>Pincode</h3>
-        <p>Paris is the capital of France.</p> 
+        <form action="{{ url_for('getvp') }}" method="post">
+            <div>
+                <input type="number" name="pincode"{% if mypincode %} value = "{{mypincode}}" {% endif %} id="pincode">
+            </div>
+            <div>
+                date: <input type="date" name="date"{% if mydate %} value = "{{mydate}}" {% endif %} required  />
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
       </div>
 
       <div>
@@ -163,7 +173,17 @@
       
       <div id="Pincode" class="tabcontent">
         <h3>Pincode</h3>
-        <p>Paris is the capital of France.</p> 
+        <form action="{{ url_for('getvp') }}" method="post">
+            <div>
+                <input type="number" name="pincode" id="pincode">
+            </div>
+            <div>
+                date: <input type="date" name="date" required  />
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
       </div>
 
 
@@ -193,7 +213,17 @@
       
       <div id="Pincode" class="tabcontent">
         <h3>Pincode</h3>
-        <p>Paris is the capital of France.</p> 
+        <form action="{{ url_for('getvp') }}" method="post">
+            <div>
+                <input type="number" name="pincode" id="pincode">
+            </div>
+            <div>
+                date: <input type="date" name="date" required  />
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
       </div>
 
       

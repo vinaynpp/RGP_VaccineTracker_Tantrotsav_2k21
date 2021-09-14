@@ -36,6 +36,8 @@ def index():
             session.pop('stateid')
         if session["districtid"]:
             session.pop('districtid')
+        if session["pincode"]:
+            session.pop('pincode')
         if session["date"]:
             session.pop('date')
     finally:
@@ -44,12 +46,12 @@ def index():
         print(stateres["states"])
         return render_template('index.html', states=stateres["states"])
 
-@app.route('/getstates')
-def getstates():
-    param = {}
-    stateres = getres(url="v2/admin/location/states", param=param)
-    print(stateres["states"])
-    return render_template('index.html', states=stateres["states"])
+#@app.route('/getstates')
+#def getstates():
+#    param = {}
+#    stateres = getres(url="v2/admin/location/states", param=param)
+#    print(stateres["states"])
+#    return render_template('index.html', states=stateres["states"])
 
 @app.route('/getdistricts', methods=['GET', 'POST'])
 def getdistricts():
@@ -82,7 +84,19 @@ def getvd():
         print(session)
         return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]) )
     
+@app.route('/getvp', methods=['GET', 'POST'])
+def getvp():
+    if request.method == 'POST':
+        
+        session["pincode"] = request.form['pincode']
+        session["date"] = dateconvert( request.form['date'])
+        param = {"pincode": str(session["pincode"]), "date": str(session["date"])}
+        pinres = getres(url="v2/appointment/sessions/public/findByPin", param=param)
+        print(session)
+        return render_template("index.html",vaccine_details=pinres["sessions"], mydate = datereconvert(session["date"]), mypincode = session["pincode"])
+        
 
+        
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
