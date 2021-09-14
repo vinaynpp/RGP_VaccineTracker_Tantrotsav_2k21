@@ -125,12 +125,14 @@ def email():
     elif type=="vd":
         param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
         emailcontent = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
+    emailcontent = str(emailcontent["sessions"])
+    print(emailcontent)
 
-    eparam = {"name": "user", "meraemail": "mastidhai@gmail.com", "merapswd": "nahibolegaja", "email": id, "subject": "Vaccine Information", "contents": emailcontent["sessions"]}
+    eparam = {"name": "user", "meraemail": "", "merapswd": "", "email": id, "subject": "Vaccine Information", "contents": emailcontent}
     emailres = requests.get(emailserver, params=eparam)
     print(emailres.text)
-    return jsonify({"status": "success"})    
+    return render_template("index.html" )  
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(threaded=True, port=port, debug=True)
+    app.run(threaded=True, port=port, debug=True, host="0.0.0.0")
