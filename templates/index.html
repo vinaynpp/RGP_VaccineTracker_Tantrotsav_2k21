@@ -42,6 +42,16 @@
               <button type="submit">Submit</button>
             </div>
           </form>
+          <form action="{{ url_for('email') }}" method="post">
+            <input type="hidden" name="type" id="type" value="vd">
+            <div>
+              Get notified by email: <input type="email" name="email"  required  />
+            </div>
+
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
       </div>
       
       <div id="Pincode" class="tabcontent">
@@ -53,6 +63,16 @@
             <div>
                 date: <input type="date" name="date"{% if mydate %} value = "{{mydate}}" {% endif %} required  />
             </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          <form action="{{ url_for('email') }}" method="post">
+            <input type="hidden" name="type" id="type" value="vp">
+            <div>
+              Get notified by email: <input type="email" name="email"  required  />
+            </div>
+
             <div>
               <button type="submit">Submit</button>
             </div>

@@ -29,6 +29,10 @@ def getres(url, param):
 #    print(response)
     return response
 
+emailserver = "https://rpgemail.herokuapp.com/json/"
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     try:
@@ -82,7 +86,7 @@ def getvd():
         param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
         findByDistrict = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
         print(session)
-        return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]), mypincode = session["pincode"] )
+        return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]) )
     
 @app.route('/getvp', methods=['GET', 'POST'])
 def getvp():
@@ -108,7 +112,24 @@ def dos():
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
-        
+
+@app.route('/email', methods=['GET', 'POST'])  
+def email():
+    type = request.form['type']
+    id = request.form['email']
+
+    if type=="vp":
+        param = {"pincode": str(session["pincode"]), "date": str(session["date"])}
+        emailcontent = getres(url="v2/appointment/sessions/public/findByPin", param=param)
+
+    elif type=="vd":
+        param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
+        emailcontent = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
+
+    eparam = {"name": "user", "meraemail": "mastidhai@gmail.com", "merapswd": "nahibolegaja", "email": id, "subject": "Vaccine Information", "contents": emailcontent["sessions"]}
+    emailres = requests.get(emailserver, params=eparam)
+    print(emailres.text)
+    return jsonify({"status": "success"})    
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
