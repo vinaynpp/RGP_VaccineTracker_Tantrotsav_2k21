@@ -15,6 +15,10 @@ def dateconvert(date):
     date = datetime.datetime.strptime(date, '%Y-%m-%d')
     date = date.strftime('%d-%m-%Y')
     return date
+def datereconvert(date):
+    date = datetime.datetime.strptime(date, '%d-%m-%Y')
+    date = date.strftime('%Y-%m-%d')
+    return date
 
 
 def getres(url, param):
@@ -27,7 +31,18 @@ def getres(url, param):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    try:
+        if session["stateid"]:
+            session.pop('stateid')
+        if session["districtid"]:
+            session.pop('districtid')
+        if session["date"]:
+            session.pop('date')
+    finally:
+        param = {}
+        stateres = getres(url="v2/admin/location/states", param=param)
+        print(stateres["states"])
+        return render_template('index.html', states=stateres["states"])
 
 @app.route('/getstates')
 def getstates():
@@ -40,26 +55,32 @@ def getstates():
 def getdistricts():
     if request.method == 'POST':
         param = {}
-        stateres = getres(url="v2/admin/location/states", param=param)
         stateid =int(request.form['states'])
         session["stateid"] = stateid
+        stateres = getres(url="v2/admin/location/states", param=param)
+
         print(session)
     #    param["state_id"] = session["stateid"]
         districtres = getres(url="v2/admin/location/districts/"+ str(stateid) , param=param)
  #       print(districtres["districts"])
 
-        return render_template('index.html', states=stateres["states"], districts=districtres["districts"])
+
+        return render_template('index.html', states=stateres["states"], districts=districtres["districts"], mystateid = session["stateid"])
 
 @app.route('/getvd', methods=['GET', 'POST'])
 def getvd():
     if request.method == 'POST':
+        param = {}
+        stateres = getres(url="v2/admin/location/states", param=param)
+        districtres = getres(url="v2/admin/location/districts/"+ str(session["stateid"]) , param=param)
+
         session["districtid"] = request.form['districts']
         session["date"] = dateconvert( request.form['date'])
  #       print(session)
         param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
         findByDistrict = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
-        print(findByDistrict)
-        return render_template("getvd.html",vaccine_details=findByDistrict["sessions"])
+        print(session)
+        return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]) )
     
 
 
