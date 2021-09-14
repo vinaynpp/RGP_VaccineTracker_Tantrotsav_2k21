@@ -82,18 +82,21 @@ def getvd():
         param = {"district_id": str(session["districtid"]), "date": str(session["date"])}
         findByDistrict = getres(url="v2/appointment/sessions/public/findByDistrict", param=param)
         print(session)
-        return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]) )
+        return render_template("index.html",vaccine_details=findByDistrict["sessions"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"], mydate = datereconvert(session["date"]), mypincode = session["pincode"] )
     
 @app.route('/getvp', methods=['GET', 'POST'])
 def getvp():
     if request.method == 'POST':
+        param = {}
+        stateres = getres(url="v2/admin/location/states", param=param)
+        districtres = getres(url="v2/admin/location/districts/"+ str(session["stateid"]) , param=param)
         
         session["pincode"] = request.form['pincode']
         session["date"] = dateconvert( request.form['date'])
         param = {"pincode": str(session["pincode"]), "date": str(session["date"])}
         pinres = getres(url="v2/appointment/sessions/public/findByPin", param=param)
         print(session)
-        return render_template("index.html",vaccine_details=pinres["sessions"], mydate = datereconvert(session["date"]), mypincode = session["pincode"])
+        return render_template("index.html",vaccine_details=pinres["sessions"], mydate = datereconvert(session["date"]), mypincode = session["pincode"], states=stateres["states"], mystateid = session["stateid"], districts=districtres["districts"], mydistrictid = session["districtid"])
         
 
         

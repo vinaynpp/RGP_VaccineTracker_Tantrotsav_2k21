@@ -1,0 +1,234 @@
+{% extends "index.html" %}
+{% block vaccineb %}
+
+
+{% if session["date"]%} 
+<div class="tab">
+    <button class="tablinks" onmouseover="selectmethod(event, 'District')">District</button>
+    <button class="tablinks" onmouseover="selectmethod(event, 'Pincode')">Pincode</button>
+  </div>
+  
+  <div id="District" class="tabcontent">
+    <h3>District</h3>
+    <form action="{{ url_for('getdistricts') }}" method="post">
+        <div>
+            Select State: 
+          <select name="states">
+            {% for state in states %}
+            <option value="{{state.state_id}}" {% if mystateid and mystateid == state.state_id %} selected {% endif %} required >{{state.state_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    <form action="{{ url_for('getvd') }}" method="post">
+        <div>
+            Select District: 
+          <select name="districts">
+            {% for district in districts %}
+            <option value="{{district.district_id}}" {% if mydistrictid and mydistrictid == district.district_id %} selected {% endif %}  required >{{district.district_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+            Date: <input type="date" name="date"{% if mydate %} value = "{{mydate}}" {% endif %}  required  />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+  
+  <div id="Pincode" class="tabcontent">
+    <h3>Pincode</h3>
+    <form action="{{ url_for('getvp') }}" method="post">
+        <div>
+            <input type="number" name="pincode"{% if mypincode %} value = "{{mypincode}}" {% endif %} id="pincode">
+        </div>
+        <div>
+            date: <input type="date" name="date"{% if mydate %} value = "{{mydate}}" {% endif %} required  />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+
+  <div>
+    <table >
+        <tr>
+            <th>
+                Center Name
+            </th>
+            <th>
+                Center Number
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                End Time
+            </th>
+            <th>
+                Vaccine
+            </th>
+            <th>
+                Total Availability
+            </th>
+            <th>
+                Dose 1
+            </th>
+            <th>
+                Dose 2
+            </th>
+            <th>
+                Min Age Limit
+            </th>
+        </tr>
+    
+      {% for vaccine in vaccine_details %}
+    
+      <tr>
+        <td>{{ vaccine.name }}</td>
+        <td>
+          <p>{{vaccine.center_id}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.address}}</p>
+          <p>Block Name : {{vaccine.block_name}}</p>
+          <p>District : {{vaccine.district_name}}</p>
+          <p>State : {{vaccine.state_name}}</p>
+          <p>Pincode : {{vaccine.pincode}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.from}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.to}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.vaccine}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.available_capacity}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.available_capacity_dose1}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.available_capacity_dose2}}</p>
+        </td>
+        <td>
+          <p>{{vaccine.min_age_limit}}</p>
+        </td>
+      </tr>
+    
+      {% endfor %}
+    </table>
+  </div>
+
+{% elif session["stateid"]%} 
+<div class="tab">
+    <button class="tablinks" onmouseover="selectmethod(event, 'District')">District</button>
+    <button class="tablinks" onmouseover="selectmethod(event, 'Pincode')">Pincode</button>
+  </div>
+  
+  <div id="District" class="tabcontent">
+    <h3>District</h3>
+    <form action="{{ url_for('getdistricts') }}" method="post">
+        <div>
+            Select State: 
+          <select name="states" required >
+            {% for state in states %}
+            <option value="{{state.state_id}}" {% if mystateid and mystateid == state.state_id %} selected {% endif %}>{{state.state_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    <form action="{{ url_for('getvd') }}" method="post">
+        <div>
+            Select District: 
+          <select name="districts" required >
+            {% for district in districts %}
+            <option value="{{district.district_id}}">{{district.district_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+            date: <input type="date" name="date" required  />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+  
+  <div id="Pincode" class="tabcontent">
+    <h3>Pincode</h3>
+    <form action="{{ url_for('getvp') }}" method="post">
+        <div>
+            <input type="number" name="pincode" id="pincode">
+        </div>
+        <div>
+            date: <input type="date" name="date" required  />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+
+
+
+
+{% else %}
+<div class="tab">
+    <button class="tablinks" onmouseover="selectmethod(event, 'District')">District</button>
+    <button class="tablinks" onmouseover="selectmethod(event, 'Pincode')">Pincode</button>
+  </div>
+  
+  <div id="District" class="tabcontent">
+    <h3>District</h3>
+    <form action="{{ url_for('getdistricts') }}" method="post">
+        <div>
+          <select name="states" required >
+            {% for state in states %}
+            <option value="{{state.state_id}}">{{state.state_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+  
+  <div id="Pincode" class="tabcontent">
+    <h3>Pincode</h3>
+    <form action="{{ url_for('getvp') }}" method="post">
+        <div>
+            <input type="number" name="pincode" id="pincode">
+        </div>
+        <div>
+            date: <input type="date" name="date" required  />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+  </div>
+
+  
+  <div class="clearfix"></div>
+
+
+{% endif %}
+{% endblock %}

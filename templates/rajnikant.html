@@ -71,6 +71,31 @@
         clear: both;
         display: table;
       }
+
+      /* Style top links */
+      .toplink {
+        background-color: #555;
+        color: white;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 25%;
+      }
+
+      .toplink:hover {
+        background-color: #777;
+      }
+
+      /* Style the top content (and add height:100% for full page content) */
+      .topcontent {
+        color: white;
+        display: none;
+        padding: 100px 20px;
+        height: 100%;
+      }
     </style>
   </head>
   <body>
@@ -89,6 +114,23 @@
         document.getElementById(methodName).style.display = "block";
         evt.currentTarget.className += " active";
       }
+
+      function openPage(pageName, elmnt, color) {
+        var i, topcontent, toplinks;
+        topcontent = document.getElementsByClassName("topcontent");
+        for (i = 0; i < topcontent.length; i++) {
+          topcontent[i].style.display = "none";
+        }
+        toplinks = document.getElementsByClassName("toplink");
+        for (i = 0; i < toplinks.length; i++) {
+          toplinks[i].style.backgroundColor = "";
+        }
+        document.getElementById(pageName).style.display = "block";
+        elmnt.style.backgroundColor = color;
+      }
+
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
     </script>
   </body>
 </html>
